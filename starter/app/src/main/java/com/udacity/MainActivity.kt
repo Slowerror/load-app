@@ -3,7 +3,6 @@ package com.udacity
 import android.app.DownloadManager
 import android.app.NotificationChannel
 import android.app.NotificationManager
-import android.app.PendingIntent
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
@@ -13,9 +12,12 @@ import android.os.Build
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.NotificationCompat
+import com.udacity.Constants.CHANNEL_ID
+import com.udacity.Constants.CHANNEL_NAME
+import com.udacity.Constants.GLIDE_URL
+import com.udacity.Constants.REPOSITORY_URL
+import com.udacity.Constants.RETROFIT_URL
 import com.udacity.databinding.ActivityMainBinding
-
 
 
 class MainActivity : AppCompatActivity() {
@@ -25,7 +27,6 @@ class MainActivity : AppCompatActivity() {
     private var downloadID: Long = 0
 
     private lateinit var notificationManager: NotificationManager
-    private lateinit var pendingIntent: PendingIntent
 
     private lateinit var url: String
     private lateinit var fileName: String
@@ -38,6 +39,7 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(binding.toolbar)
 
         registerReceiver(receiver, IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE))
+        notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
 
         getUrl()
         createChanel()
@@ -90,7 +92,7 @@ class MainActivity : AppCompatActivity() {
                     } else {
                         getString(R.string.fail_download_status)
                     }
-                    sendNotification()
+                    notificationManager.sendNotification(fileName, status, this@MainActivity)
                     binding.layoutContentMain.customButton.setupButtonState(ButtonState.Completed)
                 }
             }
@@ -112,69 +114,22 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-    private fun sendNotification() {
-        val contentIntent = Intent(applicationContext, DetailActivity::class.java).apply {
-            putExtra(KEY_FILE_NAME, fileName)
-            putExtra(KEY_STATUS, status)
-        }
-
-        pendingIntent = PendingIntent.getActivity(
-            applicationContext,
-            NOTIFICATION_ID,
-            contentIntent,
-            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
-        )
-
-        val builder = NotificationCompat.Builder(
-            applicationContext,
-            CHANNEL_ID
-        ).apply {
-            setSmallIcon(R.drawable.ic_assistant_black_24dp)
-            setContentTitle(getString(R.string.notification_title))
-            setContentText(getString(R.string.notification_description))
-            setContentIntent(pendingIntent)
-            addAction(
-                R.drawable.ic_baseline_cloud_done_24,
-                getString(R.string.notification_button),
-                pendingIntent
-            )
-            setAutoCancel(true)
-            priority = NotificationManager.IMPORTANCE_DEFAULT
-        }.build()
-
-        notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
-        notificationManager.notify(NOTIFICATION_ID, builder)
-    }
-
     private fun createChanel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val notificationChanel = NotificationChannel(
                 CHANNEL_ID,
                 CHANNEL_NAME,
                 NotificationManager.IMPORTANCE_DEFAULT
-            ).apply {
-                enableLights(true)
-                enableVibration(false)
-                description = getString(R.string.channel_description)
-            }
+            )
+
+            notificationChanel.enableLights(true)
+            notificationChanel.enableVibration(false)
+            notificationChanel.description = getString(R.string.channel_description)
 
             val notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
             notificationManager.createNotificationChannel(notificationChanel)
         }
     }
 
-    companion object {
-        private const val GLIDE_URL = "https://github.com/bumptech/glide"
-        private const val RETROFIT_URL = "https://github.com/square/retrofit"
-        private const val REPOSITORY_URL =
-            "https://github.com/udacity/nd940-c3-advanced-android-programming-project-starter"
-
-        private const val NOTIFICATION_ID = 0
-        private const val CHANNEL_ID = "channelId"
-        private const val CHANNEL_NAME = "Download notification"
-
-        const val KEY_FILE_NAME = "key file"
-        const val KEY_STATUS = "key status"
-    }
 
 }
