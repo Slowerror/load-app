@@ -24,11 +24,11 @@ fun NotificationManager.sendNotification(title: String, status: String, appConte
     )
 
     val builder = NotificationCompat.Builder(appContext, CHANNEL_ID).apply {
-        setSmallIcon(R.drawable.ic_assistant_black_24dp)
+        setSmallIcon(R.drawable.ic_assistant_black)
         setContentTitle(appContext.getString(R.string.notification_title))
         setContentText(appContext.getString(R.string.notification_description))
         addAction(
-            R.drawable.ic_baseline_cloud_done_24,
+            R.drawable.ic_cloud_done,
             appContext.getString(R.string.notification_button),
             pendingIntent
         )

@@ -27,4 +27,5 @@
     <!-- Статус загрузочного файла -->
     <string name="success_download_status">Success</string>
     <string name="fail_download_status">Fail</string>
+    <string name="image_description_content_main">image cloud download</string>
 </resources>
