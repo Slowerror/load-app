@@ -46,7 +46,6 @@ class MainActivity : AppCompatActivity() {
 
         binding.layoutContentMain.customButton.setOnClickListener {
             if (::url.isInitialized) {
-                binding.layoutContentMain.customButton.setupButtonState(ButtonState.Loading)
                 download()
             } else {
                 Toast.makeText(
@@ -93,7 +92,7 @@ class MainActivity : AppCompatActivity() {
                         getString(R.string.fail_download_status)
                     }
                     notificationManager.sendNotification(fileName, status, this@MainActivity)
-                    binding.layoutContentMain.customButton.setupButtonState(ButtonState.Completed)
+
                 }
             }
 

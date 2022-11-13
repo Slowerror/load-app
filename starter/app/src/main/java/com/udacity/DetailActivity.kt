@@ -1,7 +1,6 @@
 package com.udacity
 
 import android.app.NotificationManager
-import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
@@ -28,8 +27,7 @@ class DetailActivity : AppCompatActivity() {
         setupValues(fileName, status)
 
         binding.layoutContentDetail.goBackButton.setOnClickListener {
-            val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
+            finish()
         }
 
         val notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager

@@ -22,7 +22,8 @@
         app:layout_constraintBottom_toTopOf="@id/downloadList"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:tint="@color/primaryTextColor" />
+        app:tint="@color/primaryTextColor"
+        android:contentDescription="@string/image_description_content_main" />
 
     <RadioGroup
         android:id="@+id/downloadList"
@@ -63,14 +64,15 @@
         android:id="@+id/customButton"
         android:layout_width="0dp"
         android:layout_height="60dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         android:layout_margin="@dimen/default_margin"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/downloadList"
         app:downloadColorButton="@color/primaryColor"
-        app:loadingColorButton="@color/primaryDarkColor"
         app:downloadTextButton="@string/name_button_download"
-        app:loadingTextButton="@string/button_loading" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/downloadList"
+        app:loadingColorButton="@color/primaryDarkColor"
+        app:loadingTextButton="@string/button_loading"
+        tools:ignore="SpeakableTextPresentCheck" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

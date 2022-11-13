@@ -1,14 +1,14 @@
 package com.udacity
 
+import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
 import android.animation.ValueAnimator
 import android.content.Context
 import android.graphics.*
 import android.text.TextPaint
 import android.util.AttributeSet
 import android.util.TypedValue
-import android.view.MotionEvent
 import android.view.View
-import android.view.animation.AccelerateDecelerateInterpolator
 import androidx.core.content.withStyledAttributes
 import kotlin.properties.Delegates
 
@@ -23,40 +23,34 @@ class LoadingButton @JvmOverloads constructor(
     private var backgroundColorButton by Delegates.notNull<Int>()
     private var backgroundColorProgress by Delegates.notNull<Int>()
 
-    private var buttonProgress = 0f
+    private var textButton: String
     private lateinit var textDownloadButton: String
     private lateinit var textLoadingButton: String
+
     private val textBounds = Rect()
-    private var valueAnimator = ValueAnimator.ofFloat(0f, 1f)
+
+    private var buttonProgress = 0f
+
+    private lateinit var paintRect: Paint
+    private lateinit var textPaint: TextPaint
+    private lateinit var paintProgressCircle: Paint
+    private lateinit var paintLoad: Paint
+
+    private var valueAnimator = ValueAnimator()
 
     private var buttonState: ButtonState by Delegates.observable(ButtonState.Completed) { _, _, new ->
         when (new) {
-            ButtonState.Loading -> {
-                showAnimation()
-            }
-            ButtonState.Completed -> {
-                stopAnimation()
-            }
-            ButtonState.Clicked -> {
-                isEnabled = true
-                return@observable
-            }
+            ButtonState.Clicked -> { buttonState = ButtonState.Loading }
+            ButtonState.Loading -> { showAnimation() }
+            ButtonState.Completed -> { cancelAnimation() }
         }
     }
 
-    private val rect = RectF(0f, 0f, 0f, 0f)
-
-    private lateinit var paintBackground: Paint
-    private lateinit var textPaint: TextPaint
-    private lateinit var paintProgressCircle: Paint
-
     init {
-
-        if (attrs != null) {
-            initAttributes(attrs)
-        }
-
+        isClickable = true
+        initAttributes(attrs)
         initPaint()
+        textButton = textDownloadButton
     }
 
     private fun initAttributes(attrs: AttributeSet?) {
@@ -69,7 +63,7 @@ class LoadingButton @JvmOverloads constructor(
     }
 
     private fun initPaint() {
-        paintBackground = Paint((Paint.ANTI_ALIAS_FLAG)).apply {
+        paintRect = Paint((Paint.ANTI_ALIAS_FLAG)).apply {
             color = backgroundColorButton
             style = Paint.Style.FILL
         }
@@ -89,53 +83,28 @@ class LoadingButton @JvmOverloads constructor(
             color = Color.WHITE
             style = Paint.Style.FILL
         }
+
+        paintLoad = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+            style = Paint.Style.FILL
+            color = backgroundColorProgress
+        }
+    }
+
+    override fun performClick(): Boolean {
+        super.performClick()
+        buttonState = ButtonState.Clicked
+        return true
     }
 
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
 
+        canvas.drawRect(0f, 0f, widthSize.toFloat(), heightSize.toFloat(), paintRect)
+
         drawBackgroundProgress(canvas)
-
-        when (buttonState) {
-            ButtonState.Loading -> {
-                drawBackgroundProgress(canvas, buttonProgress)
-
-                textPaint.getTextBounds(textLoadingButton, 0, textLoadingButton.length, textBounds)
-                val start = (widthSize / 2 + textBounds.exactCenterX()) + textBounds.height() / 2
-
-                canvas.drawArc(
-                    start,
-                    (heightSize / 2 - textBounds.height() / 2).toFloat(),
-                    start + textBounds.height(),
-                    (heightSize / 2 + textBounds.height() / 2).toFloat(),
-                    0F,
-                    buttonProgress * 360,
-                    true,
-                    paintProgressCircle
-                )
-
-                drawText(canvas, textLoadingButton)
-            }
-            else -> {
-                drawText(canvas, textDownloadButton)
-            }
-        }
-        /*if (buttonState == ButtonState.Loading) {
-
-
-        } else {
-
-        }*/
-
+        drawText(canvas, textButton)
+        drawCircleProgress(canvas)
     }
-
-    /*override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
-        super.onSizeChanged(w, h, oldw, oldh)
-        widthSize = w
-        heightSize = h
-        rect.set(0f, 0f, widthSize.toFloat(), heightSize.toFloat())
-
-    }*/
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         val minw: Int = paddingLeft + paddingRight + suggestedMinimumWidth
@@ -146,16 +115,12 @@ class LoadingButton @JvmOverloads constructor(
         setMeasuredDimension(w, h)
     }
 
-    private fun drawBackgroundProgress(canvas: Canvas, progress: Float? = null) {
-        if (progress != null) {
-            paintBackground.alpha = 200
-        }
+    private fun drawBackgroundProgress(canvas: Canvas) {
         canvas.drawRect(0f, 0f,
-            widthSize.toFloat() * (progress ?: 1f),
-            heightSize.toFloat(),
-            paintBackground
+               widthSize.toFloat() * buttonProgress,
+               heightSize.toFloat(),
+            paintLoad
         )
-
     }
 
     private fun drawText(canvas: Canvas, text: String) {
@@ -164,29 +129,47 @@ class LoadingButton @JvmOverloads constructor(
         canvas.drawText(text, xPos, yPos, textPaint)
     }
 
+    private fun drawCircleProgress(canvas: Canvas) {
+        textPaint.getTextBounds(textLoadingButton, 0, textLoadingButton.length, textBounds)
+        val start = (widthSize / 2 + textBounds.exactCenterX()) + textBounds.height() / 2
+
+        canvas.drawArc(
+            start,
+            (heightSize / 2 - textBounds.height() / 2).toFloat(),
+            start + textBounds.height(),
+            (heightSize / 2 + textBounds.height() / 2).toFloat(),
+            0F,
+            buttonProgress * 360,
+            true,
+            paintProgressCircle
+        )
+    }
+
     private fun showAnimation() {
-        valueAnimator = ValueAnimator.ofFloat(0f, 1f).apply {
-            addUpdateListener {
-                buttonProgress = animatedValue as Float
-                invalidate()
-            }
-            repeatCount = ValueAnimator.INFINITE
-            repeatMode = ValueAnimator.RESTART
-            duration = 3000
-            start()
-        }
         isEnabled = false
-
+        textButton = textLoadingButton
+        valueAnimator = ValueAnimator.ofFloat(0f, 1f)
+        valueAnimator.duration = 2000
+        valueAnimator.addUpdateListener { animation ->
+            buttonProgress = animation.animatedValue as Float
+            invalidate()
+        }
+        valueAnimator.addListener(object : AnimatorListenerAdapter() {
+            override fun onAnimationEnd(animation: Animator) {
+                buttonProgress = 0f
+                if (buttonState == ButtonState.Loading) {
+                    buttonState = ButtonState.Completed
+                }
+            }
+        })
+        valueAnimator.start()
     }
 
-    private fun stopAnimation() {
+    private fun cancelAnimation() {
         valueAnimator.cancel()
-        invalidate()
         isEnabled = true
-        buttonState = ButtonState.Clicked
+        textButton = textDownloadButton
+        invalidate()
     }
 
-    fun setupButtonState(state: ButtonState) {
-        buttonState = state
-    }
 }
