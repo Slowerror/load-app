@@ -20,7 +20,6 @@ class DetailActivity : AppCompatActivity() {
 
         setSupportActionBar(binding.toolbar)
 
-
         val fileName = intent.getStringExtra(KEY_FILE_NAME)
         val status = intent.getStringExtra(KEY_STATUS)
 
