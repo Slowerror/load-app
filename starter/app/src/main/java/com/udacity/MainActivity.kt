@@ -136,12 +136,12 @@ class MainActivity : AppCompatActivity() {
             setContentTitle(getString(R.string.notification_title))
             setContentText(getString(R.string.notification_description))
             setContentIntent(pendingIntent)
-            setAutoCancel(true)
             addAction(
                 R.drawable.ic_baseline_cloud_done_24,
                 getString(R.string.notification_button),
                 pendingIntent
             )
+            setAutoCancel(true)
             priority = NotificationManager.IMPORTANCE_DEFAULT
         }.build()
 
@@ -180,8 +180,8 @@ class MainActivity : AppCompatActivity() {
         private const val CHANNEL_ID = "channelId"
         private const val CHANNEL_NAME = "Download notification"
 
-        private const val KEY_FILE_NAME = "key file"
-        private const val KEY_STATUS = "key status"
+        const val KEY_FILE_NAME = "key file"
+        const val KEY_STATUS = "key status"
     }
 
 }

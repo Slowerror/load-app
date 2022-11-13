@@ -9,13 +9,16 @@
     <string name="notification_button">See changes</string>
 
     <string name="name_button_download">Download</string>
-    <string name="name_button_ok">Download</string>
+    <string name="name_button_ok">OK</string>
     <string name="button_loading">We are loading </string>
     <string name="title_activity_detail">DetailActivity</string>
 
     <string name="toast_message_select_file">Please select the file to download</string>
     <string name="channel_description">Download file</string>
-    
+
+    <string name="file_name_title">File name:</string>
+    <string name="status_title">Status:</string>
+    <string name="ok">OK</string>
     <!-- Описание способов загрузки файла -->
     <string name="glide_description_download">Glide - Image Loading Library by BumpTech</string>
     <string name="repository_description_download">LoadApp - Current repository by Udacity</string>

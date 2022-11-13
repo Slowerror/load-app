@@ -1,11 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_margin="@dimen/default_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".DetailActivity"
     tools:showIn="@layout/activity_detail">
+
+    <TextView
+        android:id="@+id/nameFileTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/default_margin"
+        android:paddingBottom="@dimen/default_padding"
+        android:text="@string/file_name_title"
+        android:textSize="@dimen/default_text_size"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/barrier"/>
+
+    <TextView
+        android:id="@+id/statusTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/status_title"
+        android:textSize="@dimen/default_text_size"
+        app:layout_constraintTop_toBottomOf="@id/nameFileDescription"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <androidx.constraintlayout.widget.Barrier
+        android:id="@+id/barrier"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:barrierDirection="end"
+        app:constraint_referenced_ids="nameFileTitle, statusTitle" />
+
+    <TextView
+        android:id="@+id/nameFileDescription"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/default_margin"
+        android:paddingBottom="@dimen/default_padding"
+        android:text="@string/file_name_title"
+        android:textColor="@color/primaryColor"
+        android:textSize="@dimen/default_text_size"
+        app:layout_constraintTop_toTopOf="@id/nameFileTitle"
+        app:layout_constraintStart_toEndOf="@id/barrier"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <TextView
+        android:id="@+id/statusDescription"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/status_title"
+        android:textSize="@dimen/default_text_size"
+        app:layout_constraintTop_toBottomOf="@id/nameFileDescription"
+        app:layout_constraintStart_toStartOf="@id/nameFileDescription"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <Button
+        android:id="@+id/goBackButton"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:text="@string/name_button_ok"
+        android:background="@color/primaryColor"
+        android:textColor="@color/primaryTextColor"
+        android:textSize="@dimen/default_text_size"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
