@@ -24,15 +24,15 @@ fun NotificationManager.sendNotification(title: String, status: String, appConte
     )
 
     val builder = NotificationCompat.Builder(appContext, CHANNEL_ID).apply {
-        setSmallIcon(R.drawable.ic_assistant_black)
+        setSmallIcon(R.drawable.ic_stat_assistant)
         setContentTitle(appContext.getString(R.string.notification_title))
         setContentText(appContext.getString(R.string.notification_description))
         addAction(
-            R.drawable.ic_cloud_done,
+            R.drawable.ic_stat_cloud_done,
             appContext.getString(R.string.notification_button),
             pendingIntent
         )
-        priority = NotificationManager.IMPORTANCE_DEFAULT
+        priority = NotificationManager.IMPORTANCE_LOW
     }.build()
 
     notify(NOTIFICATION_ID, builder)
