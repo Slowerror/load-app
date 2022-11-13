@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_layout"
@@ -9,14 +10,67 @@
     tools:context=".MainActivity"
     tools:showIn="@layout/activity_main">
 
-    <com.udacity.LoadingButton
-        android:id="@+id/custom_button"
-        android:layout_width="0dp"
+    <ImageView
+        android:id="@+id/downloadImage"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@color/primaryColor"
+        app:srcCompat="@drawable/ic_baseline_cloud_download_24"
+        app:layout_constraintHeight_percent="0.3"
+        app:layout_constraintVertical_chainStyle="spread_inside"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/downloadList"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:tint="@color/primaryTextColor" />
+
+    <RadioGroup
+        android:id="@+id/downloadList"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/default_margin"
+        app:layout_constraintTop_toBottomOf="@id/downloadImage"
+        app:layout_constraintBottom_toTopOf="@id/customButton"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <com.google.android.material.radiobutton.MaterialRadioButton
+            android:id="@+id/downloadFromGlide"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/default_padding"
+            android:text="@string/glide_description_download"
+            android:textSize="@dimen/default_text_size" />
+
+        <com.google.android.material.radiobutton.MaterialRadioButton
+            android:id="@+id/downloadFromRepository"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/default_padding"
+            android:text="@string/repository_description_download"
+            android:textSize="@dimen/default_text_size" />
+
+        <com.google.android.material.radiobutton.MaterialRadioButton
+            android:id="@+id/downloadFromRetrofit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/default_padding"
+            android:text="@string/retrofit_description_download"
+            android:textSize="@dimen/default_text_size"/>
+    </RadioGroup>
+
+    <com.udacity.LoadingButton
+        android:id="@+id/customButton"
+        android:layout_width="0dp"
         android:layout_height="60dp"
-        android:layout_margin="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_margin="@dimen/default_margin"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/downloadList"
+        app:downloadColorButton="@color/primaryColor"
+        app:loadingColorButton="@color/primaryDarkColor"
+        app:downloadTextButton="@string/name_button_download"
+        app:loadingTextButton="@string/button_loading" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
