@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<MotionScene 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:motion="http://schemas.android.com/apk/res-auto">
+
+    <Transition
+        motion:autoTransition="animateToEnd"
+        motion:constraintSetEnd="@+id/end"
+        motion:constraintSetStart="@id/start"
+        motion:duration="2000">
+
+       <KeyFrameSet>
+           <KeyPosition
+               motion:motionTarget="@+id/goBackButton"
+               motion:framePosition="25"
+               motion:keyPositionType="parentRelative"
+               motion:percentX="0.8"
+               motion:percentY="0.25" />
+
+           <KeyPosition
+               motion:motionTarget="@+id/goBackButton"
+               motion:framePosition="50"
+               motion:keyPositionType="parentRelative"
+               motion:percentX="0.5"
+               motion:percentY="0.5" />
+
+           <KeyPosition
+               motion:motionTarget="@+id/goBackButton"
+               motion:framePosition="75"
+               motion:keyPositionType="parentRelative"
+               motion:percentX="-0.8"
+               motion:percentY="0.7" />
+
+           <KeyAttribute
+               motion:motionTarget="@+id/goBackButton"
+               motion:framePosition="50"
+               android:rotation="45" />
+
+           <KeyAttribute
+               motion:motionTarget="@+id/nameFileDescription"
+               motion:framePosition="50"
+               android:alpha="0.0" />
+
+           <KeyAttribute
+               motion:motionTarget="@+id/statusDescription"
+               motion:framePosition="50"
+               android:alpha="0.0" />
+
+       </KeyFrameSet>
+
+    </Transition>
+
+    <ConstraintSet android:id="@+id/start">
+        <Constraint
+            android:id="@+id/goBackButton"
+            android:layout_width="wrap_content"
+            android:layout_height="60dp"
+            motion:layout_constraintStart_toStartOf="parent"
+            motion:layout_constraintTop_toTopOf="parent" />
+        <Constraint
+            android:id="@+id/nameFileDescription"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/default_margin"
+            android:alpha="0.0"
+            motion:layout_constraintEnd_toEndOf="parent"
+            motion:layout_constraintStart_toEndOf="@id/barrier"
+            motion:layout_constraintTop_toTopOf="@id/nameFileTitle" />
+        <Constraint
+            android:id="@+id/statusDescription"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:alpha="0.0"
+            motion:layout_constraintEnd_toEndOf="parent"
+            motion:layout_constraintTop_toBottomOf="@id/nameFileDescription"
+            motion:layout_constraintStart_toStartOf="@id/nameFileDescription" />
+    </ConstraintSet>
+
+    <ConstraintSet android:id="@+id/end">
+        <Constraint
+            android:id="@+id/goBackButton"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            motion:layout_constraintBottom_toBottomOf="parent"
+            motion:layout_constraintStart_toStartOf="parent"
+            motion:layout_constraintEnd_toEndOf="parent" />
+        <Constraint
+            android:id="@+id/nameFileDescription"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/default_margin"
+            android:alpha="1.0"
+            motion:layout_constraintEnd_toEndOf="parent"
+            motion:layout_constraintStart_toEndOf="@id/barrier"
+            motion:layout_constraintTop_toTopOf="@id/nameFileTitle" />
+        <Constraint
+            android:id="@+id/statusDescription"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:alpha="1.0"
+            motion:layout_constraintEnd_toEndOf="parent"
+            motion:layout_constraintTop_toBottomOf="@id/nameFileDescription"
+            motion:layout_constraintStart_toStartOf="@id/nameFileDescription" />
+    </ConstraintSet>
+
+</MotionScene>
