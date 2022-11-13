@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<androidx.constraintlayout.motion.widget.MotionLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_margin="@dimen/default_margin"
+    app:layoutDescription="@xml/content_detail_scene"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".DetailActivity"
     tools:showIn="@layout/activity_detail">
@@ -18,9 +19,9 @@
         android:paddingBottom="@dimen/default_padding"
         android:text="@string/file_name_title"
         android:textSize="@dimen/default_text_size"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/barrier"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/barrier"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/statusTitle"
@@ -28,8 +29,8 @@
         android:layout_height="wrap_content"
         android:text="@string/status_title"
         android:textSize="@dimen/default_text_size"
-        app:layout_constraintTop_toBottomOf="@id/nameFileDescription"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/nameFileDescription" />
 
     <androidx.constraintlayout.widget.Barrier
         android:id="@+id/barrier"
@@ -44,33 +45,24 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/default_margin"
         android:paddingBottom="@dimen/default_padding"
-        android:text="@string/file_name_title"
         android:textColor="@color/primaryColor"
         android:textSize="@dimen/default_text_size"
-        app:layout_constraintTop_toTopOf="@id/nameFileTitle"
-        app:layout_constraintStart_toEndOf="@id/barrier"
-        app:layout_constraintEnd_toEndOf="parent" />
+        tools:text="@string/glide_description_download" />
 
     <TextView
         android:id="@+id/statusDescription"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="@string/status_title"
         android:textSize="@dimen/default_text_size"
-        app:layout_constraintTop_toBottomOf="@id/nameFileDescription"
-        app:layout_constraintStart_toStartOf="@id/nameFileDescription"
-        app:layout_constraintEnd_toEndOf="parent" />
+        tools:text="@string/success_download_status" />
 
     <Button
         android:id="@+id/goBackButton"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:text="@string/name_button_ok"
         android:background="@color/primaryColor"
+        android:text="@string/name_button_ok"
         android:textColor="@color/primaryTextColor"
-        android:textSize="@dimen/default_text_size"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        android:textSize="@dimen/default_text_size" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.motion.widget.MotionLayout>

@@ -11,7 +11,6 @@ import android.content.IntentFilter
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.widget.RadioButton
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationCompat
@@ -27,7 +26,6 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var notificationManager: NotificationManager
     private lateinit var pendingIntent: PendingIntent
-    private lateinit var action: NotificationCompat.Action
 
     private lateinit var url: String
     private lateinit var fileName: String
@@ -55,7 +53,6 @@ class MainActivity : AppCompatActivity() {
                     Toast.LENGTH_SHORT
                 ).show()
             }
-
         }
     }
 
@@ -163,7 +160,6 @@ class MainActivity : AppCompatActivity() {
 
             val notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
             notificationManager.createNotificationChannel(notificationChanel)
-
         }
     }
 
@@ -172,9 +168,6 @@ class MainActivity : AppCompatActivity() {
         private const val RETROFIT_URL = "https://github.com/square/retrofit"
         private const val REPOSITORY_URL =
             "https://github.com/udacity/nd940-c3-advanced-android-programming-project-starter"
-
-        private const val URL =
-            "https://github.com/udacity/nd940-c3-advanced-android-programming-project-starter/archive/master.zip"
 
         private const val NOTIFICATION_ID = 0
         private const val CHANNEL_ID = "channelId"
