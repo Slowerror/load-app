@@ -118,7 +118,7 @@ class MainActivity : AppCompatActivity() {
             val notificationChanel = NotificationChannel(
                 CHANNEL_ID,
                 CHANNEL_NAME,
-                NotificationManager.IMPORTANCE_DEFAULT
+                NotificationManager.IMPORTANCE_LOW
             )
 
             notificationChanel.enableLights(true)
